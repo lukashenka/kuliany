@@ -42,7 +42,7 @@
 		<nav id="site-navigation" class="main-navigation" role="navigation">
 			<h3 class="menu-toggle"><?php _e( 'Menu', 'techism' ); ?></h3>
 			<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'techism' ); ?>"><?php _e( 'Skip to content', 'techism' ); ?></a>
-			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
+			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu',"depth"=>-1 ) ); ?>
 		</nav><!-- #site-navigation -->
 		
 	</header><!-- #masthead -->
