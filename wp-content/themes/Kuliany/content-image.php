@@ -21,6 +21,6 @@
 				<?php comments_popup_link( '<span class="leave-reply">' . __( 'Leave a reply', 'techism' ) . '</span>', __( '1 Reply', 'techism' ), __( '% Replies', 'techism' ) ); ?>
 			</div><!-- .comments-link -->
 			<?php endif; // comments_open() ?>
-			<?php edit_post_link( __( 'Edit', 'techism' ), '<span class="edit-link">', '</span>' ); ?>
+			<?php edit_post_link( __( 'Рэдагаваць', 'techism' ), '<span class="edit-link">', '</span>' ); ?>
 		</footer><!-- .entry-meta -->
 	</article><!-- #post -->

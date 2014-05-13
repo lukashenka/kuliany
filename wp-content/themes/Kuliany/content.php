@@ -7,7 +7,23 @@
  * @package techism
  */
 ?>
+<header id="masthead" class="site-header" role="banner">
+	<hgroup>
+		<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+		<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
+	</hgroup>
+	<?php if ( get_header_image() ) : ?>
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php header_image(); ?>" class="header-image" width="<?php echo get_custom_header()->width; ?>" height="<?php echo 	get_custom_header()->height; ?>" alt="" /></a>
+	<?php else: ?>
+	<?php endif;?>
 
+	<nav id="site-navigation" class="main-navigation" role="navigation">
+		<h3 class="menu-toggle"><?php _e( 'Menu', 'techism' ); ?></h3>
+		<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'techism' ); ?>"><?php _e( 'Skip to content', 'techism' ); ?></a>
+		<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu',"depth"=>-1 ) ); ?>
+	</nav><!-- #site-navigation -->
+
+</header><!-- #masthead -->
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<?php if ( is_sticky() && is_home() && ! is_paged() ) : ?>
 		<div class="featured-post">
@@ -17,7 +33,7 @@
 		
 		<header class="entry-header">
 			
-			<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'techism' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
+			<h1 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Ð¡ÑÑ‹Ð»ÐºÐ° Ð´Ð° %s', 'techism' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
 			
 		<?php if ( 'post' == get_post_type() ) : ?>	
 		<div class="entry-meta">
@@ -36,11 +52,11 @@
 	<div class="entry-content">
 	<?php if(is_home() && get_theme_mod( 'techism_home_content' ) == '0') : ?>
 		<?php the_excerpt( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'techism' ) ); ?> 
-		<?php echo '<a class="readmore more-link" href="' . get_permalink() . '" title="'.the_title( '', '', false ).'">'.__( 'Read more', 'techism' ).'</a>'; ?>
+		<?php echo '<a class="readmore more-link" href="' . get_permalink() . '" title="'.the_title( '', '', false ).'">'.__( 'Ð‘Ð¾Ð»ÑŒÑˆ', 'techism' ).'</a>'; ?>
 		<?php else: ?>
 		<?php the_content(); ?>
         <?php endif; ?>
-		<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'techism' ), 'after' => '</div>' ) ); ?>
+		<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Ð¡Ñ‚Ð°Ñ€Ð¾Ð½Ð°Ðº:', 'techism' ), 'after' => '</div>' ) ); ?>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-meta">
@@ -51,7 +67,7 @@
 				if ( $categories_list && techism_categorized_blog() ) :
 			?>
 			<span class="cat-links">
-				<?php printf( __( 'Àïóáë³êàâàíà ¢ %1$s', 'techism' ), $categories_list ); ?>
+				<?php printf( __( 'ÐÐ¿ÑƒÐ±Ð»Ñ–ÐºÐ°Ð²Ð°Ð½Ð° Ñž %1$s', 'techism' ), $categories_list ); ?>
 			</span>
 			<?php endif; // End if categories ?>
 
@@ -59,9 +75,9 @@
 
 		<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
 		<span class="sep"> | </span>
-		<span class="comments-link"><?php comments_popup_link( __( 'Ïàê³íóöü êàìåíòàð', 'techism' ), __( 'Ïåðøû êàìåíò', 'techism' ), __( '% êàìåíòà¢', 'techism' ) ); ?></span>
+		<span class="comments-link"><?php comments_popup_link( __( 'ÐŸÐ°ÐºÑ–Ð½ÑƒÑ†ÑŒ ÐºÐ°Ð¼ÐµÐ½Ñ‚Ð°Ñ€', 'techism' ), __( 'ÐŸÐµÑ€ÑˆÑ‹ ÐºÐ°Ð¼ÐµÐ½Ñ‚', 'techism' ), __( '% ÐºÐ°Ð¼ÐµÐ½Ñ‚Ð°Ñž', 'techism' ) ); ?></span>
 		<?php endif; ?>
 
-		<?php edit_post_link( __( 'Edit', 'techism' ), '<span class="sep"> | </span><span class="edit-link">', '</span>' ); ?>
+		<?php edit_post_link( __( 'Ð ÑÐ´Ð°Ð³Ð°Ð²Ð°Ñ†ÑŒ', 'techism' ), '<span class="sep"> | </span><span class="edit-link">', '</span>' ); ?>
 	</footer><!-- .entry-meta -->
 	</article><!-- #post -->
