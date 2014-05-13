@@ -51,7 +51,7 @@
 				if ( $categories_list && techism_categorized_blog() ) :
 			?>
 			<span class="cat-links">
-				<?php printf( __( 'Posted in %1$s', 'techism' ), $categories_list ); ?>
+				<?php printf( __( 'Апублікавана ў %1$s', 'techism' ), $categories_list ); ?>
 			</span>
 			<?php endif; // End if categories ?>
 
@@ -59,7 +59,7 @@
 
 		<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
 		<span class="sep"> | </span>
-		<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'techism' ), __( '1 Comment', 'techism' ), __( '% Comments', 'techism' ) ); ?></span>
+		<span class="comments-link"><?php comments_popup_link( __( 'Пакінуць каментар', 'techism' ), __( 'Першы камент', 'techism' ), __( '% каментаў', 'techism' ) ); ?></span>
 		<?php endif; ?>
 
 		<?php edit_post_link( __( 'Edit', 'techism' ), '<span class="sep"> | </span><span class="edit-link">', '</span>' ); ?>

@@ -42,10 +42,7 @@
 	
 	<footer id="colophon" role="contentinfo">
 		<div class="site-info">
-			<?php do_action( 'techism_credits' ); ?>
-			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'techism' ) ); ?>" title="<?php esc_attr_e( 'Semantic Personal Publishing Platform', 'techism' ); ?>"><?php printf( __( 'Proudly powered by %s', 'techism' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( __( 'Theme: %1$s by %2$s.', 'techism' ), 'techism','<a href="'.esc_url( 'http://setwp.com/techism-wordpress-theme/' ).'">Rajeeb Banstola</a>' ); ?>
+
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->
