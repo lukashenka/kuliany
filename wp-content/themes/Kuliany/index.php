@@ -7,7 +7,6 @@
 
 get_header(); ?>
 
-
 <?php	
 		$cat_id = get_theme_mod('techism_slider_category' );
 		$post_num = get_theme_mod('techism_slider_postnum');
@@ -40,7 +39,8 @@ get_header(); ?>
 
 	<div id="primary" class="site-content">
 		<div id="content" role="main">
-		<?php if ( have_posts() ) : ?>
+
+			<?php if ( have_posts() ) : ?>
 
 			<?php /* Start the Loop */ ?>
 			<?php while ( have_posts() ) : the_post(); ?>
@@ -68,11 +68,11 @@ get_header(); ?>
 				// Show the default message to everyone else.
 			?>
 				<header class="entry-header">
-					<h1 class="entry-title"><?php _e( 'Nothing Found', 'techism' ); ?></h1>
+					<h1 class="entry-title"><?php _e('Нічога не знойдзена =(', 'techism'); ?></h1>
 				</header>
 
 				<div class="entry-content">
-					<p><?php _e( 'Apologies, but no results were found. Perhaps searching will help find a related post.', 'techism' ); ?></p>
+					<p><?php _e('Прабачце, але ж такога у нас няма.', 'techism'); ?></p>
 					<?php get_search_form(); ?>
 				</div><!-- .entry-content -->
 			<?php endif; // end current_user_can() check ?>

@@ -1,60 +1,62 @@
 /* global tinymce */
-tinymce.PluginManager.add( 'wplink', function( editor ) {
-	var linkButton;
-	
-	// Register a command so that it can be invoked by using tinyMCE.activeEditor.execCommand( 'WP_Link' );
-	editor.addCommand( 'WP_Link', function() {
-		if ( ( ! linkButton || ! linkButton.disabled() ) && typeof window.wpLink !== 'undefined' ) {
-			window.wpLink.open( editor.id );
-		}
-	});
+tinymce.PluginManager.add('wplink', function (editor) {
+    var linkButton;
 
-	// WP default shortcut
-	editor.addShortcut( 'alt+shift+a', '', 'WP_Link' );
-	// The "de-facto standard" shortcut, see #27305
-	editor.addShortcut( 'ctrl+k', '', 'WP_Link' );
+    // Register a command so that it can be invoked by using tinyMCE.activeEditor.execCommand( 'WP_Link' );
+    editor.addCommand('WP_Link', function () {
+        if (( !linkButton || !linkButton.disabled() ) && typeof window.wpLink !== 'undefined') {
+            window.wpLink.open(editor.id);
+        }
+    });
 
-	function setState( button, node ) {
-		button.disabled( editor.selection.isCollapsed() && node.nodeName !== 'A' );
-		button.active( node.nodeName === 'A' && ! node.name );
-	}
+    // WP default shortcut
+    editor.addShortcut('alt+shift+a', '', 'WP_Link');
+    // The "de-facto standard" shortcut, see #27305
+    editor.addShortcut('ctrl+k', '', 'WP_Link');
 
-	editor.addButton( 'link', {
-		icon: 'link',
-		tooltip: 'Insert/edit link',
-		shortcut: 'Alt+Shift+A',
-		cmd: 'WP_Link',
+    function setState(button, node) {
+        var parent = editor.dom.getParent(node, 'a');
 
-		onPostRender: function() {
-			linkButton = this;
+        button.disabled(( editor.selection.isCollapsed() && !parent ) || ( parent && !parent.href ));
+        button.active(parent && parent.href);
+    }
 
-			editor.on( 'nodechange', function( event ) {
-				setState( linkButton, event.element );
-			});
-		}
-	});
+    editor.addButton('link', {
+        icon: 'link',
+        tooltip: 'Insert/edit link',
+        shortcut: 'Alt+Shift+A',
+        cmd: 'WP_Link',
 
-	editor.addButton( 'unlink', {
-		icon: 'unlink',
-		tooltip: 'Remove link',
-		cmd: 'unlink',
+        onPostRender: function () {
+            linkButton = this;
 
-		onPostRender: function() {
-			var unlinkButton = this;
+            editor.on('nodechange', function (event) {
+                setState(linkButton, event.element);
+            });
+        }
+    });
 
-			editor.on( 'nodechange', function( event ) {
-				setState( unlinkButton, event.element );
-			});
-		}
-	});
+    editor.addButton('unlink', {
+        icon: 'unlink',
+        tooltip: 'Remove link',
+        cmd: 'unlink',
 
-	editor.addMenuItem( 'link', {
-		icon: 'link',
-		text: 'Insert link',
-		shortcut: 'Alt+Shift+A',
-		cmd: 'WP_Link',
-		stateSelector: 'a[href]',
-		context: 'insert',
-		prependToContext: true
-	});
+        onPostRender: function () {
+            var unlinkButton = this;
+
+            editor.on('nodechange', function (event) {
+                setState(unlinkButton, event.element);
+            });
+        }
+    });
+
+    editor.addMenuItem('link', {
+        icon: 'link',
+        text: 'Insert link',
+        shortcut: 'Alt+Shift+A',
+        cmd: 'WP_Link',
+        stateSelector: 'a[href]',
+        context: 'insert',
+        prependToContext: true
+    });
 });

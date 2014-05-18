@@ -7,53 +7,57 @@
  * @since Customizr 1.0
  */
 ?>
-<?php do_action( '__before_main_wrapper' ); ##hook of the header with get_header ?>
-<div id="main-wrapper" class="<?php echo tc__f( 'tc_main_wrapper_classes' , 'container' ) ?>">
+<?php do_action('__before_main_wrapper'); ##hook of the header with get_header ?>
+	<div id="main-wrapper" class="<?php echo tc__f('tc_main_wrapper_classes', 'container') ?>">
 
-    <?php do_action( '__before_main_container' ); ##hook of the featured page (priority 10) and breadcrumb (priority 20)...and whatever you need! ?>
-    
-    <div class="container" role="main">
-        <div class="<?php echo tc__f( 'tc_column_content_wrapper_classes' , 'row column-content-wrapper' ) ?>">
+		<?php do_action('__before_main_container'); ##hook of the featured page (priority 10) and breadcrumb (priority 20)...and whatever you need! ?>
 
-            <?php do_action( '__before_article_container'); ##hook of left sidebar?>
-                
-                <div id="content" class="<?php echo tc__f( '__screen_layout' , tc__f ( '__ID' ) , 'class' ) ?> article-container">
-                    
-                    <?php do_action ('__before_loop');##hooks the header of the list of post : archive, search... ?>
+		<div class="container" role="main">
+			<div class="<?php echo tc__f('tc_column_content_wrapper_classes', 'row column-content-wrapper') ?>">
 
-                        <?php if ( tc__f('__is_no_results') || is_404() ) : ##no search results or 404 cases ?>
+				<?php do_action('__before_article_container'); ##hook of left sidebar?>
 
-                            <article <?php tc__f('__article_selectors') ?>>
-                                <?php do_action( '__loop' ); ?>
-                            </article>
-                            
-                        <?php endif; ?>
+				<div id="content"
+				     class="<?php echo tc__f('__screen_layout', tc__f('__ID'), 'class') ?> article-container">
 
-                        <?php if ( have_posts() && !is_404() ) : ?>
-                            <?php while ( have_posts() ) : ##all other cases for single and lists: post, custom post type, page, archives, search, 404 ?>
-                                <?php the_post(); ?>
+					<?php do_action('__before_loop'); ##hooks the header of the list of post : archive, search... ?>
 
-                                <?php do_action ('__before_article') ?>
-                                    <article <?php tc__f('__article_selectors') ?>>
-                                        <?php do_action( '__loop' ); ?>
-                                    </article>
-                                <?php do_action ('__after_article') ?>
+					<?php if (tc__f('__is_no_results') || is_404()) : ##no search results or 404 cases ?>
 
-                            <?php endwhile; ?>
+						<article <?php tc__f('__article_selectors') ?>>
+							<?php do_action('__loop'); ?>
+						</article>
 
-                        <?php endif; ##end if have posts ?>
+					<?php endif; ?>
 
-                    <?php do_action ('__after_loop');##hook of the comments and the posts navigation with priorities 10 and 20 ?>
+					<?php if (have_posts() && !is_404()) : ?>
+						<?php while (have_posts()) : ##all other cases for single and lists: post, custom post type, page, archives, search, 404 ?>
+							<?php the_post(); ?>
 
-                </div><!--.article-container -->
+							<?php do_action('__before_article') ?>
+							<article <?php tc__f('__article_selectors') ?>>
+								<?php do_action('__loop'); ?>
+							</article>
+							<?php do_action('__after_article') ?>
 
-           <?php do_action( '__after_article_container'); ##hook of left sidebar ?>
+						<?php endwhile; ?>
 
-        </div><!--.row -->
-    </div><!-- .container role: main -->
+					<?php endif; ##end if have posts ?>
 
-    <?php do_action( '__after_main_container' ); ?>
+					<?php do_action('__after_loop'); ##hook of the comments and the posts navigation with priorities 10 and 20 ?>
 
-</div><!--#main-wrapper"-->
+				</div>
+				<!--.article-container -->
 
-<?php do_action( '__after_main_wrapper' );##hook of the footer with get_get_footer ?>
+				<?php do_action('__after_article_container'); ##hook of left sidebar ?>
+
+			</div>
+			<!--.row -->
+		</div>
+		<!-- .container role: main -->
+
+		<?php do_action('__after_main_container'); ?>
+
+	</div><!--#main-wrapper"-->
+
+<?php do_action('__after_main_wrapper'); ##hook of the footer with get_get_footer ?>

@@ -15,11 +15,12 @@
  *
  * @return bool True if subdomain configuration is enabled, false otherwise.
  */
-function is_subdomain_install() {
-	if ( defined('SUBDOMAIN_INSTALL') )
+function is_subdomain_install()
+{
+	if (defined('SUBDOMAIN_INSTALL'))
 		return SUBDOMAIN_INSTALL;
 
-	if ( defined('VHOST') && VHOST == 'yes' )
+	if (defined('VHOST') && VHOST == 'yes')
 		return true;
 
 	return false;
@@ -36,21 +37,22 @@ function is_subdomain_install() {
  * @since 3.1.0
  * @return array Files to include
  */
-function wp_get_active_network_plugins() {
-	$active_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
-	if ( empty( $active_plugins ) )
+function wp_get_active_network_plugins()
+{
+	$active_plugins = (array)get_site_option('active_sitewide_plugins', array());
+	if (empty($active_plugins))
 		return array();
 
 	$plugins = array();
-	$active_plugins = array_keys( $active_plugins );
-	sort( $active_plugins );
+	$active_plugins = array_keys($active_plugins);
+	sort($active_plugins);
 
-	foreach ( $active_plugins as $plugin ) {
-		if ( ! validate_file( $plugin ) // $plugin must validate as file
-			&& '.php' == substr( $plugin, -4 ) // $plugin must end with '.php'
-			&& file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist
-			)
-		$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
+	foreach ($active_plugins as $plugin) {
+		if (!validate_file($plugin) // $plugin must validate as file
+			&& '.php' == substr($plugin, -4) // $plugin must end with '.php'
+			&& file_exists(WP_PLUGIN_DIR . '/' . $plugin) // $plugin must exist
+		)
+			$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
 	}
 	return $plugins;
 }
@@ -70,7 +72,8 @@ function wp_get_active_network_plugins() {
  *
  * @return bool|string Returns true on success, or drop-in file to include.
  */
-function ms_site_check() {
+function ms_site_check()
+{
 	$blog = get_blog_details();
 
 	/**
@@ -79,34 +82,34 @@ function ms_site_check() {
 	 * @since 3.0.0
 	 *
 	 * @param bool null Whether to skip the blog status check. Default null.
-	*/
-	$check = apply_filters( 'ms_site_check', null );
-	if ( null !== $check )
+	 */
+	$check = apply_filters('ms_site_check', null);
+	if (null !== $check)
 		return true;
 
 	// Allow super admins to see blocked sites
-	if ( is_super_admin() )
+	if (is_super_admin())
 		return true;
 
-	if ( '1' == $blog->deleted ) {
-		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) )
+	if ('1' == $blog->deleted) {
+		if (file_exists(WP_CONTENT_DIR . '/blog-deleted.php'))
 			return WP_CONTENT_DIR . '/blog-deleted.php';
 		else
-			wp_die( __( 'This user has elected to delete their account and the content is no longer available.' ), '', array( 'response' => 410 ) );
+			wp_die(__('This user has elected to delete their account and the content is no longer available.'), '', array('response' => 410));
 	}
 
-	if ( '2' == $blog->deleted ) {
-		if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) )
+	if ('2' == $blog->deleted) {
+		if (file_exists(WP_CONTENT_DIR . '/blog-inactive.php'))
 			return WP_CONTENT_DIR . '/blog-inactive.php';
 		else
-			wp_die( sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', 'support@' . get_current_site()->domain ) ) ) );
+			wp_die(sprintf(__('This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.'), str_replace('@', ' AT ', get_site_option('admin_email', 'support@' . get_current_site()->domain))));
 	}
 
-	if ( $blog->archived == '1' || $blog->spam == '1' ) {
-		if ( file_exists( WP_CONTENT_DIR . '/blog-suspended.php' ) )
+	if ($blog->archived == '1' || $blog->spam == '1') {
+		if (file_exists(WP_CONTENT_DIR . '/blog-suspended.php'))
 			return WP_CONTENT_DIR . '/blog-suspended.php';
 		else
-			wp_die( __( 'This site has been archived or suspended.' ), '', array( 'response' => 410 ) );
+			wp_die(__('This site has been archived or suspended.'), '', array('response' => 410));
 	}
 
 	return true;
@@ -117,24 +120,25 @@ function ms_site_check() {
  *
  * @since 3.9.0
  *
- * @param string   $domain   Domain to check.
- * @param string   $path     Path to check.
+ * @param string $domain Domain to check.
+ * @param string $path Path to check.
  * @param int|null $segments Path segments to use. Defaults to null, or the full path.
  * @return object|bool Network object if successful. False when no network is found.
  */
-function get_network_by_path( $domain, $path, $segments = null ) {
+function get_network_by_path($domain, $path, $segments = null)
+{
 	global $wpdb;
 
-	$domains = $exact_domains = array( $domain );
-	$pieces = explode( '.', $domain );
+	$domains = $exact_domains = array($domain);
+	$pieces = explode('.', $domain);
 
 	/*
 	 * It's possible one domain to search is 'com', but it might as well
 	 * be 'localhost' or some other locally mapped domain.
 	 */
-	while ( array_shift( $pieces ) ) {
-		if ( $pieces ) {
-			$domains[] = implode( '.', $pieces );
+	while (array_shift($pieces)) {
+		if ($pieces) {
+			$domains[] = implode('.', $pieces);
 		}
 	}
 
@@ -148,17 +152,17 @@ function get_network_by_path( $domain, $path, $segments = null ) {
 	 * depending on the setup, so this is best done per-install.
 	 */
 	$using_paths = true;
-	if ( wp_using_ext_object_cache() ) {
-		$using_paths = wp_cache_get( 'networks_have_paths', 'site-options' );
-		if ( false === $using_paths ) {
-			$using_paths = (bool) $wpdb->get_var( "SELECT id FROM $wpdb->site WHERE path <> '/' LIMIT 1" );
-			wp_cache_add( 'networks_have_paths', (int) $using_paths, 'site-options'  );
+	if (wp_using_ext_object_cache()) {
+		$using_paths = wp_cache_get('networks_have_paths', 'site-options');
+		if (false === $using_paths) {
+			$using_paths = (bool)$wpdb->get_var("SELECT id FROM $wpdb->site WHERE path <> '/' LIMIT 1");
+			wp_cache_add('networks_have_paths', (int)$using_paths, 'site-options');
 		}
 	}
 
 	$paths = array();
-	if ( $using_paths ) {
-		$path_segments = array_filter( explode( '/', trim( $path, "/" ) ) );
+	if ($using_paths) {
+		$path_segments = array_filter(explode('/', trim($path, "/")));
 
 		/**
 		 * Filter the number of path segments to consider when searching for a site.
@@ -168,18 +172,18 @@ function get_network_by_path( $domain, $path, $segments = null ) {
 		 * @param int|null $segments The number of path segments to consider. WordPress by default looks at
 		 *                           one path segment. The function default of null only makes sense when you
 		 *                           know the requested path should match a network.
-		 * @param string   $domain   The requested domain.
-		 * @param string   $path     The requested path, in full.
+		 * @param string $domain The requested domain.
+		 * @param string $path The requested path, in full.
 		 */
-		$segments = apply_filters( 'network_by_path_segments_count', $segments, $domain, $path );
+		$segments = apply_filters('network_by_path_segments_count', $segments, $domain, $path);
 
-		if ( null !== $segments && count($path_segments ) > $segments ) {
-			$path_segments = array_slice( $path_segments, 0, $segments );
+		if (null !== $segments && count($path_segments) > $segments) {
+			$path_segments = array_slice($path_segments, 0, $segments);
 		}
 
-		while ( count( $path_segments ) ) {
-			$paths[] = '/' . implode( '/', $path_segments ) . '/';
-			array_pop( $path_segments );
+		while (count($path_segments)) {
+			$paths[] = '/' . implode('/', $path_segments) . '/';
+			array_pop($path_segments);
 		}
 
 		$paths[] = '/';
@@ -197,36 +201,36 @@ function get_network_by_path( $domain, $path, $segments = null ) {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param null|bool|object $network  Network value to return by path.
-	 * @param string           $domain   The requested domain.
-	 * @param string           $path     The requested path, in full.
-	 * @param int|null         $segments The suggested number of paths to consult.
+	 * @param null|bool|object $network Network value to return by path.
+	 * @param string $domain The requested domain.
+	 * @param string $path The requested path, in full.
+	 * @param int|null $segments The suggested number of paths to consult.
 	 *                                   Default null, meaning the entire path was to be consulted.
-	 * @param array            $paths    The paths to search for, based on $path and $segments.
+	 * @param array $paths The paths to search for, based on $path and $segments.
 	 */
-	$pre = apply_filters( 'pre_get_network_by_path', null, $domain, $path, $segments, $paths );
-	if ( null !== $pre ) {
+	$pre = apply_filters('pre_get_network_by_path', null, $domain, $path, $segments, $paths);
+	if (null !== $pre) {
 		return $pre;
 	}
 
 	// @todo Consider additional optimization routes, perhaps as an opt-in for plugins.
 	// We already have paths covered. What about how far domains should be drilled down (including www)?
 
-	$search_domains = "'" . implode( "', '", $wpdb->_escape( $domains ) ) . "'";
+	$search_domains = "'" . implode("', '", $wpdb->_escape($domains)) . "'";
 
-	if ( ! $using_paths ) {
-		$network = $wpdb->get_row( "SELECT id, domain, path FROM $wpdb->site
-			WHERE domain IN ($search_domains) ORDER BY CHAR_LENGTH(domain) DESC LIMIT 1" );
-		if ( $network ) {
-			return wp_get_network( $network );
+	if (!$using_paths) {
+		$network = $wpdb->get_row("SELECT id, domain, path FROM $wpdb->site
+			WHERE domain IN ($search_domains) ORDER BY CHAR_LENGTH(domain) DESC LIMIT 1");
+		if ($network) {
+			return wp_get_network($network);
 		}
 		return false;
 
 	} else {
-		$search_paths = "'" . implode( "', '", $wpdb->_escape( $paths ) ) . "'";
-		$networks = $wpdb->get_results( "SELECT id, domain, path FROM $wpdb->site
+		$search_paths = "'" . implode("', '", $wpdb->_escape($paths)) . "'";
+		$networks = $wpdb->get_results("SELECT id, domain, path FROM $wpdb->site
 			WHERE domain IN ($search_domains) AND path IN ($search_paths)
-			ORDER BY CHAR_LENGTH(domain) DESC, CHAR_LENGTH(path) DESC" );
+			ORDER BY CHAR_LENGTH(domain) DESC, CHAR_LENGTH(path) DESC");
 	}
 
 	/*
@@ -235,21 +239,21 @@ function get_network_by_path( $domain, $path, $segments = null ) {
 	 * a network with the path of / will suffice.
 	 */
 	$found = false;
-	foreach ( $networks as $network ) {
-		if ( $network->domain === $domain || "www.$network->domain" === $domain ) {
-			if ( in_array( $network->path, $paths, true ) ) {
+	foreach ($networks as $network) {
+		if ($network->domain === $domain || "www.$network->domain" === $domain) {
+			if (in_array($network->path, $paths, true)) {
 				$found = true;
 				break;
 			}
 		}
-		if ( $network->path === '/' ) {
+		if ($network->path === '/') {
 			$found = true;
 			break;
 		}
 	}
 
-	if ( $found ) {
-		return wp_get_network( $network );
+	if ($found) {
+		return wp_get_network($network);
 	}
 
 	return false;
@@ -263,12 +267,13 @@ function get_network_by_path( $domain, $path, $segments = null ) {
  * @param object|int $network The network's database row or ID.
  * @return object|bool Object containing network information if found, false if not.
  */
-function wp_get_network( $network ) {
+function wp_get_network($network)
+{
 	global $wpdb;
 
-	if ( ! is_object( $network ) ) {
-		$network = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE id = %d", $network ) );
-		if ( ! $network ) {
+	if (!is_object($network)) {
+		$network = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->site WHERE id = %d", $network));
+		if (!$network) {
 			return false;
 		}
 	}
@@ -281,15 +286,16 @@ function wp_get_network( $network ) {
  *
  * @since 3.9.0
  *
- * @param string   $domain   Domain to check.
- * @param string   $path     Path to check.
+ * @param string $domain Domain to check.
+ * @param string $path Path to check.
  * @param int|null $segments Path segments to use. Defaults to null, or the full path.
  * @return object|bool Site object if successful. False when no site is found.
  */
-function get_site_by_path( $domain, $path, $segments = null ) {
+function get_site_by_path($domain, $path, $segments = null)
+{
 	global $wpdb;
 
-	$path_segments = array_filter( explode( '/', trim( $path, '/' ) ) );
+	$path_segments = array_filter(explode('/', trim($path, '/')));
 
 	/**
 	 * Filter the number of path segments to consider when searching for a site.
@@ -299,18 +305,18 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	 * @param int|null $segments The number of path segments to consider. WordPress by default looks at
 	 *                           one path segment following the network path. The function default of
 	 *                           null only makes sense when you know the requested path should match a site.
-	 * @param string   $domain   The requested domain.
-	 * @param string   $path     The requested path, in full.
+	 * @param string $domain The requested domain.
+	 * @param string $path The requested path, in full.
 	 */
-	$segments = apply_filters( 'site_by_path_segments_count', $segments, $domain, $path );
+	$segments = apply_filters('site_by_path_segments_count', $segments, $domain, $path);
 
-	if ( null !== $segments && count( $path_segments ) > $segments ) {
-		$path_segments = array_slice( $path_segments, 0, $segments );
+	if (null !== $segments && count($path_segments) > $segments) {
+		$path_segments = array_slice($path_segments, 0, $segments);
 	}
 
-	while ( count( $path_segments ) ) {
-		$paths[] = '/' . implode( '/', $path_segments ) . '/';
-		array_pop( $path_segments );
+	while (count($path_segments)) {
+		$paths[] = '/' . implode('/', $path_segments) . '/';
+		array_pop($path_segments);
 	}
 
 	$paths[] = '/';
@@ -327,15 +333,15 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param null|bool|object $site     Site value to return by path.
-	 * @param string           $domain   The requested domain.
-	 * @param string           $path     The requested path, in full.
-	 * @param int|null         $segments The suggested number of paths to consult.
+	 * @param null|bool|object $site Site value to return by path.
+	 * @param string $domain The requested domain.
+	 * @param string $path The requested path, in full.
+	 * @param int|null $segments The suggested number of paths to consult.
 	 *                                   Default null, meaning the entire path was to be consulted.
-	 * @param array            $paths    The paths to search for, based on $path and $segments.
+	 * @param array $paths The paths to search for, based on $path and $segments.
 	 */
-	$pre = apply_filters( 'pre_get_site_by_path', null, $domain, $path, $segments, $paths );
-	if ( null !== $pre ) {
+	$pre = apply_filters('pre_get_site_by_path', null, $domain, $path, $segments, $paths);
+	if (null !== $pre) {
 		return $pre;
 	}
 
@@ -348,16 +354,33 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	 * then cache whether we can just always ignore paths.
 	 */
 
-	if ( count( $paths ) > 1 ) {
-		$paths = "'" . implode( "', '", $wpdb->_escape( $paths ) ) . "'";
-		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s", $domain );
-		$sql .= " AND path IN ($paths) ORDER BY CHAR_LENGTH(path) DESC LIMIT 1";
-		$site = $wpdb->get_row( $sql );
-	} else {
-		$site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s and path = %s", $domain, $paths[0] ) );
+	// Either www or non-www is supported, not both. If a www domain is requested,
+	// query for both to provide the proper redirect.
+	$domains = array($domain);
+	if ('www.' === substr($domain, 0, 4)) {
+		$domains[] = substr($domain, 4);
+		$search_domains = "'" . implode("', '", $wpdb->_escape($domains)) . "'";
 	}
 
-	if ( $site ) {
+	if (count($paths) > 1) {
+		$search_paths = "'" . implode("', '", $wpdb->_escape($paths)) . "'";
+	}
+
+	if (count($domains) > 1 && count($paths) > 1) {
+		$site = $wpdb->get_row("SELECT * FROM $wpdb->blogs WHERE domain IN ($search_domains) AND path IN ($search_paths) ORDER BY CHAR_LENGTH(domain) DESC, CHAR_LENGTH(path) DESC LIMIT 1");
+	} elseif (count($domains) > 1) {
+		$sql = $wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE path = %s", $paths[0]);
+		$sql .= " AND domain IN ($search_domains) ORDER BY CHAR_LENGTH(domain) DESC LIMIT 1";
+		$site = $wpdb->get_row($sql);
+	} elseif (count($paths) > 1) {
+		$sql = $wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE domain = %s", $domains[0]);
+		$sql .= " AND path IN ($search_paths) ORDER BY CHAR_LENGTH(path) DESC LIMIT 1";
+		$site = $wpdb->get_row($sql);
+	} else {
+		$site = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE domain = %s AND path = %s", $domains[0], $paths[0]));
+	}
+
+	if ($site) {
 		// @todo get_blog_details()
 		return $site;
 	}
@@ -373,32 +396,33 @@ function get_site_by_path( $domain, $path, $segments = null ) {
  * @access private
  * @since 3.0.0
  */
-function ms_not_installed() {
+function ms_not_installed()
+{
 	global $wpdb, $domain, $path;
 
 	wp_load_translations_early();
 
-	$title = __( 'Error establishing a database connection' );
-	$msg  = '<h1>' . $title . '</h1>';
-	if ( ! is_admin() )
-		die( $msg );
-	$msg .= '<p>' . __( 'If your site does not display, please contact the owner of this network.' ) . '';
-	$msg .= ' ' . __( 'If you are the owner of this network please check that MySQL is running properly and all tables are error free.' ) . '</p>';
-	if ( ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
-		$msg .= '<p>' . sprintf( __( '<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted <code>%s</code>. You really should look at your database now.' ), $wpdb->site ) . '</p>';
+	$title = __('Error establishing a database connection');
+	$msg = '<h1>' . $title . '</h1>';
+	if (!is_admin())
+		die($msg);
+	$msg .= '<p>' . __('If your site does not display, please contact the owner of this network.') . '';
+	$msg .= ' ' . __('If you are the owner of this network please check that MySQL is running properly and all tables are error free.') . '</p>';
+	if (!$wpdb->get_var("SHOW TABLES LIKE '$wpdb->site'"))
+		$msg .= '<p>' . sprintf(__('<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted <code>%s</code>. You really should look at your database now.'), $wpdb->site) . '</p>';
 	else
-		$msg .= '<p>' . sprintf( __( '<strong>Could not find site <code>%1$s</code>.</strong> Searched for table <code>%2$s</code> in database <code>%3$s</code>. Is that right?' ), rtrim( $domain . $path, '/' ), $wpdb->blogs, DB_NAME ) . '</p>';
-	$msg .= '<p><strong>' . __( 'What do I do now?' ) . '</strong> ';
-	$msg .= __( 'Read the <a target="_blank" href="http://codex.wordpress.org/Debugging_a_WordPress_Network">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' );
-	$msg .= ' ' . __( 'If you&#8217;re still stuck with this message, then check that your database contains the following tables:' ) . '</p><ul>';
-	foreach ( $wpdb->tables('global') as $t => $table ) {
-		if ( 'sitecategories' == $t )
+		$msg .= '<p>' . sprintf(__('<strong>Could not find site <code>%1$s</code>.</strong> Searched for table <code>%2$s</code> in database <code>%3$s</code>. Is that right?'), rtrim($domain . $path, '/'), $wpdb->blogs, DB_NAME) . '</p>';
+	$msg .= '<p><strong>' . __('What do I do now?') . '</strong> ';
+	$msg .= __('Read the <a target="_blank" href="http://codex.wordpress.org/Debugging_a_WordPress_Network">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.');
+	$msg .= ' ' . __('If you&#8217;re still stuck with this message, then check that your database contains the following tables:') . '</p><ul>';
+	foreach ($wpdb->tables('global') as $t => $table) {
+		if ('sitecategories' == $t)
 			continue;
 		$msg .= '<li>' . $table . '</li>';
 	}
 	$msg .= '</ul>';
 
-	wp_die( $msg, $title );
+	wp_die($msg, $title);
 }
 
 /**
@@ -414,8 +438,9 @@ function ms_not_installed() {
  * @param object $current_site
  * @return object
  */
-function get_current_site_name( $current_site ) {
-	_deprecated_function( __FUNCTION__, '3.9' );
+function get_current_site_name($current_site)
+{
+	_deprecated_function(__FUNCTION__, '3.9');
 	return $current_site;
 }
 
@@ -431,8 +456,9 @@ function get_current_site_name( $current_site ) {
  *
  * @return object
  */
-function wpmu_current_site() {
+function wpmu_current_site()
+{
 	global $current_site;
-	_deprecated_function( __FUNCTION__, '3.9' );
+	_deprecated_function(__FUNCTION__, '3.9');
 	return $current_site;
 }
