@@ -187,9 +187,9 @@ register_sidebar( array(
 		'name' => __('Left Sidebar Top', 'techism'),
 		'id' => 'sidebar-top-1',
 		'description' => __('Widgets in this area will be shown on the left-hand side.', 'techism'),
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'before_widget' => '<aside id="%1$s" class="widget no-margin %2$s">',
 		'after_widget' => '</aside>',
-		'before_title' => '<hr class="widget-top-hr">' . '<h1 class="widget-title">',
+		'before_title' => '<h1 class="widget-title" style="display:none">',
 		'after_title' => '<hr class="widget-below-hr">' . '</h1>',
 	));
 
@@ -208,7 +208,7 @@ register_sidebar( array(
 		'name' => __('Right Sidebar Top', 'techism'),
 		'id' => 'sidebar-top-2',
 		'description' => __('Widgets in this area will be shown on the right-hand side.', 'techism'),
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'before_widget' => '<aside id="%1$s" class="widget no-margin %2$s ">',
 		'after_widget' => '</aside>',
 		'before_title' => '<hr class="widget-top-hr" >' . '<h1 class="widget-title" style="display:none">',
 		'after_title' => '<hr class="widget-below-hr">' . '</h1>',

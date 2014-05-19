@@ -57,3 +57,12 @@
     -moz-box-sizing: border-box; /* Firefox, other Gecko */
     box-sizing: border-box; /* Opera/IE 8+ */
 }
+
+#loginform>p>label, #loginform>p>input
+{
+    width: 45%;
+    float: left;
+}
+#loginform p{
+    clear: both;
+}

@@ -39,6 +39,7 @@ get_header(); ?>
 
 	<div id="primary" class="site-content">
 		<div id="content" role="main">
+			<?php query_posts( 'posts_per_page=10' ); ?>
 
 			<?php if ( have_posts() ) : ?>
 

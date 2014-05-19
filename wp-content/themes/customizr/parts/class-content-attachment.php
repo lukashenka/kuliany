@@ -1,162 +1,157 @@
 <?php
-
 /**
- * Attachments content actions
- *
- *
- * @package      Customizr
- * @subpackage   classes
- * @since        3.0.5
- * @author       Nicolas GUILLAUME <nicolas@themesandco.com>
- * @copyright    Copyright (c) 2013, Nicolas GUILLAUME
- * @link         http://themesandco.com/customizr
- * @license      http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-class TC_attachment
-{
+* Attachments content actions
+*
+* 
+* @package      Customizr
+* @subpackage   classes
+* @since        3.0.5
+* @author       Nicolas GUILLAUME <nicolas@themesandco.com>
+* @copyright    Copyright (c) 2013, Nicolas GUILLAUME
+* @link         http://themesandco.com/customizr
+* @license      http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*/
 
-	//Access any method or var of the class with classname::$instance -> var or method():
-	static $instance;
+class TC_attachment {
 
-	function __construct()
-	{
-		self::$instance =& $this;
-		add_action('__loop', array($this, 'tc_attachment_content'));
-	}
+    //Access any method or var of the class with classname::$instance -> var or method():
+    static $instance;
+
+    function __construct () {
+        self::$instance =& $this;
+        add_action  ( '__loop'			              , array( $this , 'tc_attachment_content' ));
+    }
 
 
-	/**
-	 * The template part for displaying attachment content
-	 * Inspired from Twenty Twelve WP Theme
-	 * @package Customizr
-	 * @since Customizr 3.0
-	 */
-	function tc_attachment_content()
-	{
-		//check conditional tags
-		global $post;
-		if (isset($post) && 'attachment' != $post->post_type || !is_singular())
-			return;
 
-		ob_start();
-		do_action('__before_content');
-		?>
-		<nav id="image-navigation" class="navigation" role="navigation">
-			<span class="previous-image"><?php previous_image_link(false, __('&larr; Previous', 'customizr')); ?></span>
-			<span class="next-image"><?php next_image_link(false, __('Next &rarr;', 'customizr')); ?></span>
-		</nav><!-- #image-navigation -->
 
-		<section class="entry-content">
+    /**
+     * The template part for displaying attachment content
+     * Inspired from Twenty Twelve WP Theme
+     * @package Customizr
+     * @since Customizr 3.0
+     */
+    function tc_attachment_content() {
+        //check conditional tags
+        global $post;
+        if (isset($post) && 'attachment' != $post -> post_type || !is_singular() )
+            return;
 
-			<div class="entry-attachment">
+        ob_start();
+        do_action( '__before_content' );
+        ?>
+        <nav id="image-navigation" class="navigation" role="navigation">
+            <span class="previous-image"><?php previous_image_link( false, __( '&larr; Previous' , 'customizr' ) ); ?></span>
+            <span class="next-image"><?php next_image_link( false, __( 'Next &rarr;' , 'customizr' ) ); ?></span>
+        </nav><!-- #image-navigation -->
+          
+        <section class="entry-content">
 
-				<div class="attachment">
-					<?php
+            <div class="entry-attachment">
 
-					$attachments = array_values(get_children(array('post_parent' => $post->post_parent, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID')));
+                <div class="attachment">
+                    <?php
 
-					//did we activate the fancy box in customizer?
-					$tc_fancybox = esc_attr(tc__f('__get_option', 'tc_fancybox'));
+                    $attachments = array_values( get_children( array( 'post_parent' => $post->post_parent, 'post_status' => 'inherit' , 'post_type' => 'attachment' , 'post_mime_type' => 'image' , 'order' => 'ASC' , 'orderby' => 'menu_order ID' ) ) );
 
-					?>
+                    //did we activate the fancy box in customizer?
+                    $tc_fancybox = esc_attr( tc__f( '__get_option' , 'tc_fancybox' ) );
 
-					<?php if ($tc_fancybox == 0) : //fancy box not checked! ?>
+                    ?>
+                    
+                    <?php if ( $tc_fancybox == 0 ) : //fancy box not checked! ?> 
+                        
+                        <?php
+                        /**
+                        * Grab the IDs of all the image attachments in a gallery so we can get the URL of the next adjacent image in a gallery,
+                        * or the first image (if we're looking at the last image in a gallery), or, in a gallery of one, just the link to that image file
+                        */
 
-						<?php
-						/**
-						 * Grab the IDs of all the image attachments in a gallery so we can get the URL of the next adjacent image in a gallery,
-						 * or the first image (if we're looking at the last image in a gallery), or, in a gallery of one, just the link to that image file
-						 */
+                        foreach ( $attachments as $k => $attachment )  {
+                            if ( $attachment->ID == $post->ID ) {
+                                break;
+                            }
+                        }
 
-						foreach ($attachments as $k => $attachment) {
-							if ($attachment->ID == $post->ID) {
-								break;
-							}
-						}
+                        $k++;
 
-						$k++;
+                        // If there is more than 1 attachment in a gallery
+                        if ( count( $attachments ) > 1 ) {
 
-						// If there is more than 1 attachment in a gallery
-						if (count($attachments) > 1) {
+                            if ( isset( $attachments[ $k ] ) ) {
+                                // get the URL of the next image attachment
+                                $next_attachment_url = get_attachment_link( $attachments[ $k ]->ID );
+                            }
+                            
+                            else {
+                                // or get the URL of the first image attachment
+                                $next_attachment_url = get_attachment_link( $attachments[ 0 ]->ID );
+                            }
+                        }
 
-							if (isset($attachments[$k])) {
-								// get the URL of the next image attachment
-								$next_attachment_url = get_attachment_link($attachments[$k]->ID);
-							} else {
-								// or get the URL of the first image attachment
-								$next_attachment_url = get_attachment_link($attachments[0]->ID);
-							}
-						} else {
-							// or, if there's only 1 image, get the URL of the image
-							$next_attachment_url = wp_get_attachment_url();
-						}
+                        else {
+                            // or, if there's only 1 image, get the URL of the image
+                            $next_attachment_url = wp_get_attachment_url();
+                        }
 
-						?>
+                        ?>
 
-						<a href="<?php echo esc_url($next_attachment_url); ?>" title="<?php the_title_attribute(); ?>"
-						   rel="attachment"><?php
-							$attachment_size = apply_filters('tc_customizr_attachment_size', array(960, 960));
-							echo wp_get_attachment_image($post->ID, $attachment_size);
-							?></a>
+                        <a href="<?php echo esc_url( $next_attachment_url ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php
+                        $attachment_size = apply_filters( 'tc_customizr_attachment_size' , array( 960, 960 ) );
+                        echo wp_get_attachment_image( $post->ID, $attachment_size );
+                        ?></a>
+                    
+                    <?php else : // if fancybox option checked ?>
+                        
+                        <?php
+                        //get attachement src
+                        $attachment_infos       = wp_get_attachment_image_src( $post->ID , 'large' );
+                        $attachment_src         = $attachment_infos[0];
+                        ?>
 
-					<?php else : // if fancybox option checked ?>
+                        <a href="<?php echo $attachment_src; ?>" title="<?php the_title_attribute(); ?>" class="grouped_elements" rel="tc-fancybox-group<?php echo $post -> ID ?>"><?php
+                        $attachment_size = apply_filters( 'tc_customizr_attachment_size' , array( 960, 960 ) );
+                        echo wp_get_attachment_image( $post->ID, $attachment_size );
+                        ?></a>
+                        
+                        <div id="hidden-attachment-list" style="display:none">
 
-						<?php
-						//get attachement src
-						$attachment_infos = wp_get_attachment_image_src($post->ID, 'large');
-						$attachment_src = $attachment_infos[0];
-						?>
+                            <?php foreach ( $attachments as $k => $attachment ) : //get all related galery attachement for lightbox navigation ?>
 
-						<a href="<?php echo $attachment_src; ?>" title="<?php the_title_attribute(); ?>"
-						   class="grouped_elements" rel="tc-fancybox-group<?php echo $post->ID ?>"><?php
-							$attachment_size = apply_filters('tc_customizr_attachment_size', array(960, 960));
-							echo wp_get_attachment_image($post->ID, $attachment_size);
-							?></a>
+                                <?php
+                                $rel_attachment_infos       = wp_get_attachment_image_src( $attachment->ID , 'large' );
+                                $rel_attachment_src         = $rel_attachment_infos[0];
+                                ?>
 
-						<div id="hidden-attachment-list" style="display:none">
+                                <a href="<?php echo $rel_attachment_src ; ?>" title="<?php printf('%1$s', !empty( $attachment->post_excerpt ) ? $attachment->post_excerpt :  $attachment->post_title ) ?>" class="grouped_elements" rel="tc-fancybox-group<?php echo $post -> ID ?>"><?php echo $rel_attachment_src ; ?></a>
+                                
+                            <?php endforeach ?>
 
-							<?php foreach ($attachments as $k => $attachment) : //get all related galery attachement for lightbox navigation ?>
+                        </div><!--/#hidden-attachment-list-->
 
-								<?php
-								$rel_attachment_infos = wp_get_attachment_image_src($attachment->ID, 'large');
-								$rel_attachment_src = $rel_attachment_infos[0];
-								?>
+                    <?php endif //end if fancybox option checked ?>
 
-								<a href="<?php echo $rel_attachment_src; ?>"
-								   title="<?php printf('%1$s', !empty($attachment->post_excerpt) ? $attachment->post_excerpt : $attachment->post_title) ?>"
-								   class="grouped_elements"
-								   rel="tc-fancybox-group<?php echo $post->ID ?>"><?php echo $rel_attachment_src; ?></a>
+                    <?php if ( ! empty( $post->post_excerpt ) ) : ?>
 
-							<?php endforeach ?>
+                        <div class="entry-caption">
+                            <?php the_excerpt(); ?>
+                        </div>
 
-						</div><!--/#hidden-attachment-list-->
+                    <?php endif; ?>
 
-					<?php endif //end if fancybox option checked ?>
+                </div><!-- .attachment -->
 
-					<?php if (!empty($post->post_excerpt)) : ?>
+            </div><!-- .entry-attachment -->
 
-						<div class="entry-caption">
-							<?php the_excerpt(); ?>
-						</div>
+        </section><!-- .entry-content -->
 
-					<?php endif; ?>
+        <?php do_action( '__after_content' ) ?>
 
-				</div>
-				<!-- .attachment -->
+        <?php
+        $html = ob_get_contents();
+        if ($html) ob_end_clean();
+        echo apply_filters( 'tc_attachment_content', $html );
 
-			</div>
-			<!-- .entry-attachment -->
-
-		</section><!-- .entry-content -->
-
-		<?php do_action('__after_content') ?>
-
-		<?php
-		$html = ob_get_contents();
-		if ($html) ob_end_clean();
-		echo apply_filters('tc_attachment_content', $html);
-
-	}
-	//end of function
+    }//end of function
 
 }//end of class

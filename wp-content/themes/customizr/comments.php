@@ -16,26 +16,26 @@
  * return early without loading the comments.
  */
 ?>
-<?php if (have_comments()) : ?>
+<?php if ( have_comments() ) : ?>
 
-	<?php echo apply_filters('comment_separator', '<hr class="featurette-divider ' . current_filter() . '">'); ?>
+	<?php echo apply_filters( 'comment_separator', '<hr class="featurette-divider '.current_filter().'">' ); ?>
 
 <?php endif; ?>
 
 <div id="comments" class="comments-area">
-
-	<?php
+	
+	<?php 
 	$args = array(
-		'title_reply' => __('Leave a Comment', 'customizr'),
+	  'title_reply'       => __( 'Leave a Comment' , 'customizr' ),
 	);
 
-	comment_form($args);
+	comment_form($args); 
 
 	?>
 
-	<?php if (have_comments()) : ?>
+	<?php if ( have_comments() ) : ?>
 
-		<?php do_action('__comment'); ?>
+		<?php do_action ( '__comment' );?>
 
 	<?php endif; // have_comments() ?>
 

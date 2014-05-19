@@ -39,14 +39,19 @@ get_header(); ?>
 			<?php $childCategories = $categories = get_categories(array("parent" => $current_cat_id, "orderby" => "id"));
 
 			?>
+
 			<?php if (count($childCategories)): ?>
 				<div id="categories-list">
 					<?php foreach ($childCategories as $category): ?>
-						<header class="entry-header">
-							<h1 class="entry-title"><a href="<?= get_category_link($category->term_id) ?>"
-							                           title="<?php echo esc_attr(sprintf(__('Ссылка да %s', 'techism'), the_title_attribute('echo=0'))); ?>"
-							                           rel="bookmark"><?= $category->name ?></a></h1>
-						</header><!-- .entry-header -->
+						<div class="category-item"
+						     style="background: url('<?php echo z_taxonomy_image_url($category->term_id, array(320, 200)); ?>');background-repeat: no-repeat;
+							     background-position: center center; ">
+							<div class="category-title"><a href="<?= get_category_link($category->term_id) ?>"
+							                               title="<?php echo esc_attr(sprintf(__('Ссылка да %s', 'techism'), the_title_attribute('echo=0'))); ?>"
+							                               rel="bookmark"><?= $category->name ?></a>
+
+							</div>
+						</div><!-- .entry-header -->
 
 					<?php endforeach; ?>
 				</div>

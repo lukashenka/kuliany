@@ -226,8 +226,8 @@ msgid "Post navigation"
 msgstr "Навигация по записям"
 
 #: functions.php:289
-msgid "<span class=\"meta-nav\">&larr;</span> Ранейшыя пасты"
-msgstr "<span class=\"meta-nav\">&larr;</span> Ранейшыя пасты"
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr "<span class=\"meta-nav\">&larr;</span> Предыдущие записи"
 
 #: functions.php:290
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"

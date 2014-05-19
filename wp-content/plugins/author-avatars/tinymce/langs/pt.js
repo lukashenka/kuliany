@@ -1,7 +1,7 @@
 tinyMCE.addI18n({
-    "pt": {
+    "pt":{
         "authoravatars": {
-            "desc": "Adicionar o atalho do Author Avatar"
+            "desc" : "Adicionar o atalho do Author Avatar"
         }
     }
 });
