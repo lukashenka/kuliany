@@ -183,7 +183,18 @@ register_sidebar( array(
     'after_title' => '<hr class="widget-below-hr">'.'</h1>',
   ) );
 
-  register_sidebar( array(
+	register_sidebar(array(
+		'name' => __('Left Sidebar Top', 'techism'),
+		'id' => 'sidebar-top-1',
+		'description' => __('Widgets in this area will be shown on the left-hand side.', 'techism'),
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget' => '</aside>',
+		'before_title' => '<hr class="widget-top-hr">' . '<h1 class="widget-title">',
+		'after_title' => '<hr class="widget-below-hr">' . '</h1>',
+	));
+
+
+	register_sidebar( array(
     'name' => __( 'Right Sidebar', 'techism' ),
     'id' => 'sidebar-2',
     'description' => __( 'Widgets in this area will be shown on the right-hand side.', 'techism' ),
@@ -191,11 +202,21 @@ register_sidebar( array(
     'after_widget' => '</aside>',
     'before_title' => '<hr class="widget-top-hr">'.'<h1 class="widget-title">',
     'after_title' => '<hr class="widget-below-hr">'.'</h1>',
-  ) ); 
+	));
 
-  /* Register footer Sidebar  */
+	register_sidebar(array(
+		'name' => __('Right Sidebar Top', 'techism'),
+		'id' => 'sidebar-top-2',
+		'description' => __('Widgets in this area will be shown on the right-hand side.', 'techism'),
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget' => '</aside>',
+		'before_title' => '<hr class="widget-top-hr" >' . '<h1 class="widget-title" style="display:none">',
+		'after_title' => '<hr class="widget-below-hr">' . '</h1>',
+	));
 
-  register_sidebar( array(
+	/* Register footer Sidebar  */
+
+	register_sidebar( array(
     'name' => __( 'Footer 1', 'techism' ),
     'id' => 'footer-1',
     'before_widget' => '<aside id="%1$s" class="widget %2$s">',
@@ -247,7 +268,9 @@ function techism_content_nav( $html_id ) {
 	if ( $wp_query->max_num_pages > 1 ) : ?>
 		<nav id="<?php echo $html_id; ?>" class="navigation" role="navigation">
 			<h3 class="assistive-text"><?php _e( 'Post navigation', 'techism' ); ?></h3>
-			<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Ğàíåéøûÿ ïàñòû', 'techism' ) ); ?></div>
+
+			<div
+				class="nav-previous"><?php next_posts_link(__('<span class="meta-nav">&larr;</span> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½', 'techism')); ?></div>
 			<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'techism' ) ); ?></div>
 		</nav><!-- #<?php echo $html_id; ?> .navigation -->
 	<?php endif;

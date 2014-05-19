@@ -7,7 +7,6 @@
 
 get_header(); ?>
 
-
 <?php	
 		$cat_id = get_theme_mod('techism_slider_category' );
 		$post_num = get_theme_mod('techism_slider_postnum');
@@ -40,24 +39,8 @@ get_header(); ?>
 
 	<div id="primary" class="site-content">
 		<div id="content" role="main">
-			<header id="masthead" class="site-header" role="banner">
-				<hgroup>
-					<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-					<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
-				</hgroup>
-				<?php if ( get_header_image() ) : ?>
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php header_image(); ?>" class="header-image" width="<?php echo get_custom_header()->width; ?>" height="<?php echo 	get_custom_header()->height; ?>" alt="" /></a>
-				<?php else: ?>
-				<?php endif;?>
 
-				<nav id="site-navigation" class="main-navigation" role="navigation">
-					<h3 class="menu-toggle"><?php _e( 'Menu', 'techism' ); ?></h3>
-					<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'techism' ); ?>"><?php _e( 'Skip to content', 'techism' ); ?></a>
-					<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu',"depth"=>-1 ) ); ?>
-				</nav><!-- #site-navigation -->
-
-			</header><!-- #masthead -->
-		<?php if ( have_posts() ) : ?>
+			<?php if ( have_posts() ) : ?>
 
 			<?php /* Start the Loop */ ?>
 			<?php while ( have_posts() ) : the_post(); ?>
@@ -85,11 +68,11 @@ get_header(); ?>
 				// Show the default message to everyone else.
 			?>
 				<header class="entry-header">
-					<h1 class="entry-title"><?php _e( 'Нічога не знойдзена =(', 'techism' ); ?></h1>
+					<h1 class="entry-title"><?php _e('Нічога не знойдзена =(', 'techism'); ?></h1>
 				</header>
 
 				<div class="entry-content">
-					<p><?php _e( 'Прабачце, але ж такога у нас няма.', 'techism' ); ?></p>
+					<p><?php _e('Прабачце, але ж такога у нас няма.', 'techism'); ?></p>
 					<?php get_search_form(); ?>
 				</div><!-- .entry-content -->
 			<?php endif; // end current_user_can() check ?>

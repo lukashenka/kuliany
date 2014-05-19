@@ -7,7 +7,7 @@
  * @since Customizr 3.1.0
  */
 
-dynamic_sidebar( 'left' );
+dynamic_sidebar('left');
 
 ?>
 

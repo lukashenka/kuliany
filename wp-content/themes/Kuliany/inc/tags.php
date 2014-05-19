@@ -59,7 +59,6 @@ if (!function_exists('techism_content_nav')) :
 endif; // techism_content_nav
 
 
-
 if (!function_exists('techism_comment')) :
 	/**
 	 * Template for comments and pingbacks.

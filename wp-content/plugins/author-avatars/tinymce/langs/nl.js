@@ -1,7 +1,7 @@
 tinyMCE.addI18n({
-	"en":{
-		"authoravatars": {
-			"desc" : "Toevoegen Author Avatars Shortcodes"
-		}
-	}
+    "en": {
+        "authoravatars": {
+            "desc": "Toevoegen Author Avatars Shortcodes"
+        }
+    }
 });
