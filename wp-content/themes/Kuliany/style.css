@@ -150,7 +150,7 @@ img {
     line-height: 18px;
     letter-spacing: 1px;
     margin: 0;
-    margin-bottom: 12px;
+    margin-bottom: 2px;
     padding: 9px;
     padding-bottom: 3px;
     border: 1px solid #e6e6e6;
@@ -470,7 +470,7 @@ body.custom-font-enabled {
 }
 #content{
 	margin: 0 22%;
-	background-color: rgba(255, 255, 255, 0.24);
+
     margin-top: 40px;
 }
 .search #content {
@@ -516,7 +516,7 @@ a:hover {
 .site {
 	padding: 0 24px;
 	padding: 0 1.714285714rem;
-	background-color: rgba(255, 255, 255, 0.89);
+	background-color: rgba(255, 255, 255, 0.9);
 }
 .site-content {
 	width: 100%;
@@ -652,7 +652,8 @@ section[role="banner"] {
 	word-wrap: break-word;
 	border: 1px solid rgba(139, 0, 0, 0.32);
 	padding: 4px;
-	box-shadow: -5px -1px 7px 0px rgba(136, 136, 136, 0.18);
+	box-shadow: -5px -1px 7px 0px rgba(136, 136, 136, 0.5);
+	border-radius: 4px;
 }
 
 
@@ -1946,7 +1947,7 @@ img#wpstats {
 }
 
 #footer-sidebar{
-	background-color: rgba(255, 255, 255, 0.24);
+	background-color: rgba(255, 255, 255, 0.2);
 	margin: 0 auto;
 	width: 100%;
 	height:auto;
