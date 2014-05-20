@@ -1793,8 +1793,11 @@ img#wpstats {
         width: 54%;
         margin-top: 40px;
         float: left;
-        padding: 10px;
         text-shadow: -1px -1px 1px black;
+	    padding: 10px;
+	    background: white;
+	    border: 1px solid rgba(0, 0, 0, 0.16);
+	    box-shadow: -2px -1px 16px 0px;
 
     }
 
@@ -2161,6 +2164,5 @@ img#wpstats {
 
 .pagenav.sidebar_login_links {
     clear: both;
-}#head{
-	 background: rgba(187, 187, 187, 0.64);
- }
+
+}
