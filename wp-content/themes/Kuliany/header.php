@@ -1,4 +1,7 @@
 <?php
+
+require_once "nav-menu-template.php";
+
 /**
  * The Header template for our theme
  *
@@ -95,7 +98,7 @@
 		<h3 class="menu-toggle"><?php _e('Menu', 'techism'); ?></h3>
 		<a class="assistive-text" href="#content"
 		   title="<?php esc_attr_e('Skip to content', 'techism'); ?>"><?php _e('Skip to content', 'techism'); ?></a>
-		<?php wp_nav_menu(array('theme_location' => 'primary', 'menu_class' => 'nav-menu', "depth" => -1)); ?>
+		<?php wp_nav_menu(array('theme_location' => 'primary', 'menu_class' => 'nav-menu', 'walker' => new Kuliany_Walker_Nav_Menu)); ?>
 	</nav>
 	<!-- #site-navigation -->
 
