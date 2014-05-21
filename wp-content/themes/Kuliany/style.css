@@ -248,7 +248,7 @@ input[type="reset"]:hover,
 article.post-password-required input[type=submit]:hover {
 	color: #5e5e5e;
 	text-decoration: none;
-	background-color: #009BFF;
+	background-color: darkred;
 }
 .menu-toggle:active,
 .menu-toggle.toggled-on,
@@ -1777,6 +1777,7 @@ img#wpstats {
 		margin-bottom: 0;
         text-align: center;
         font-size: 7em;
+		margin-left: 3%;
     }
 
     #masthead {
@@ -1792,13 +1793,14 @@ img#wpstats {
 
     #header {
         width: 54%;
-        margin-top: 40px;
+	    margin-top: 3%;
         float: left;
         text-shadow: -1px -1px 1px black;
 	    padding: 10px;
 	    background: white;
 	    border: 1px solid rgba(0, 0, 0, 0.16);
 	    box-shadow: -2px -1px 16px 0px;
+	    min-width: 600px;
 
     }
 
@@ -2165,5 +2167,38 @@ img#wpstats {
 
 .pagenav.sidebar_login_links {
     clear: both;
+
+}
+
+#registration-form {
+	padding: 5px;
+	margin-top: 10px;
+	background: white;
+}
+
+#registration-form label,#registration-form input,#registration-form span,#registration-form .form-action{
+	float: left;
+	padding: 9px;
+}
+
+
+
+#registration-form input{
+	width: 49%;
+	padding: 3px;
+}
+
+#registration-form span{
+	width: 50%;
+	padding: 6px;
+}
+
+#registration-form .form-action{
+	color: #000000;
+	margin-top: 10px;
+}
+
+#registration-form .form-action:hover{
+	color: darkred;
 
 }
