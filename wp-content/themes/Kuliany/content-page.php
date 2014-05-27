@@ -19,7 +19,7 @@
 		</div><!-- .entry-meta -->
 		
 		<div class="entry-content">
-			<?php the_content(); ?>
+			<?php the_content('Далей'); ?>
 			<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'techism' ), 'after' => '</div>' ) ); ?>
 		</div><!-- .entry-content -->
 		<footer class="entry-meta">

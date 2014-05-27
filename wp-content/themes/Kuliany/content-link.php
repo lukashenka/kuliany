@@ -9,7 +9,7 @@
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<header><?php _e( 'Link', 'techism' ); ?></header>
 		<div class="entry-content">
-			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'techism' ) ); ?>
+			<?php the_content('Далей'); ?>
 		</div><!-- .entry-content -->
 
 		<footer class="entry-meta">

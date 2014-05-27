@@ -41,7 +41,7 @@
 			<?php the_excerpt(__('Continue reading <span class="meta-nav">&rarr;</span>', 'techism')); ?>
 			<?php echo '<a class="readmore more-link" href="' . get_permalink() . '" title="' . the_title('', '', false) . '">' . __('Больш', 'techism') . '</a>'; ?>
 		<?php else: ?>
-			<?php the_content(); ?>
+			<?php the_content('Далей'); ?>
 		<?php endif; ?>
 		<?php wp_link_pages(array('before' => '<div class="page-links">' . __('Старонак:', 'techism'), 'after' => '</div>')); ?>
 	</div>

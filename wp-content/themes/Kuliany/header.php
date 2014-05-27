@@ -37,7 +37,7 @@ require_once "nav-menu-template.php";
 		<div id="main" class="wrapper">
 
 			<div id="left-sidebar-top" class="widget-area" role="complementary">
-				<div class="widget no-margin" style="background: #ffffff; height: 200px">
+				<div class="widget no-margin" style="background: #ffffff; height: 208px">
 					<h2 class="widget-title" style="margin-bottom: 5px;">Пошта</h2>
 
 					<div id="registration-form">

@@ -15,7 +15,7 @@ get_header(); ?>
 
 
 				$current_cat_id = get_query_var('cat');
-				$args = array('category__and' => array($current_cat_id), 'orderby' => 'post_date', 'order' => 'DESC', 'posts_per_page' => 1, 'post_status' => 'publish');
+				$args = array('category__and' => array($current_cat_id), 'orderby' => 'post_date', 'order' => 'DESC', 'posts_per_page' => 10, 'post_status' => 'publish');
 				query_posts($args);
 				/* Start the Loop */
 				while (have_posts()) : the_post();
