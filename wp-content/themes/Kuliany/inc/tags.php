@@ -139,7 +139,7 @@ if (!function_exists('techism_posted_on')) :
 			esc_html(get_the_date()),
 			esc_url(get_author_posts_url(get_the_author_meta('ID'))),
 			esc_attr(sprintf(__('View all posts by %s', 'techism'), get_the_author_meta('last_name') . " " . get_the_author_meta('first_name'))),
-			get_the_author_meta('last_name') . " " . get_the_author_meta('first_name')
+			get_the_author_meta('first_name') . " " . get_the_author_meta('last_name')
 		);
 	}
 endif;
