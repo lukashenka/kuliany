@@ -1,7 +1,8 @@
 <?php
 
 require_once "nav-menu-template.php";
-
+global $current_user;
+get_currentuserinfo();
 /**
  * The Header template for our theme
  *
@@ -40,27 +41,60 @@ require_once "nav-menu-template.php";
 				<div class="widget no-margin" style="background: #ffffff; height: 208px">
 					<h2 class="widget-title" style="margin-bottom: 5px;">Пошта</h2>
 
-					<div id="registration-form">
-						<form name="loginform" id="loginform" action="http://kuliany.dev/wp-login.php" method="post">
-							<div class="form-group">
+					<?php if (!is_user_logged_in()): ?>
+						<div id="registration-form">
+							<form name="loginform" id="loginform" action="http://kuliany.dev/wp-login.php"
+							      method="post">
+								<div class="form-group">
 
-								<input type="text" id="username" name="log" placeholder="Лагін"/>
-								<span>@kuliany.by</span>
-							</div>
-							<div class="clear"></div>
-							<div class="form-group" style="margin-top:10px">
+									<input type="text" id="username" name="log" placeholder="Лагін"/>
+									<span>@kuliany.by</span>
+								</div>
+								<div class="clear"></div>
+								<div class="form-group" style="margin-top:10px">
 
-								<input type="password" name="pwd" id="password" placeholder="Пароль"/>
-								<input style="width: 40%; margin-left: 5%" type="submit"  name="wp-submit" id="wp-submit" value="Цісні"/>
+									<input type="password" name="pwd" id="password" placeholder="Пароль"/>
+									<input style="width: 40%; margin-left: 5%" type="submit" name="wp-submit"
+									       id="wp-submit" value="Цісні"/>
+								</div>
+								<div class="clear"></div>
+								<div class="form-group">
+									<a class="form-action" href="<?php echo get_page_link(287) ?>">Зарэгістравацца</a>
+								</div>
+								<input type="hidden" name="redirect_to" value="http://kuliany.dev/">
+								<input type="hidden" name="rememberme" id="rememberme" value="forever">
+							</form>
+						</div>
+					<?php else: ?>
+
+						<div id="profile">
+							<div id="welcome-message">
+								<div>Прывітанне <span
+										id="username"><?= $current_user->user_firstname ?> <?= $current_user->user_lastname ?></span>
+								</div>
 							</div>
-							<div class="clear"></div>
-							<div class="form-group">
-								<a class="form-action" href="<?php echo get_page_link(287) ?>">Зарэгістравацца</a>
+
+							<div class="left half column">
+
+								<div id="ava">
+									<?php echo get_avatar(get_the_author_meta('ID'), array(100, 100), $default, get_the_author_meta('username')); ?>
+								</div>
 							</div>
-							<input type="hidden" name="redirect_to" value="http://kuliany.dev/">
-							<input type="hidden" name="rememberme"  id="rememberme" value="forever">
-						</form>
-					</div>
+							<div class="right half column">
+								<div>
+									<a class="form-action" href="/wp-admin/">Панель</a>
+								</div>
+
+								<div>
+									<a class="form-action" href="https://mail.yandex.ru/for/kuliany.by">Пошта</a>
+								</div>
+
+								<div>
+									<a class="form-action" href="<?php echo wp_logout_url($redirect); ?>&redirect_to=/">Выйсці</a>
+								</div>
+							</div>
+						</div>
+					<?php endif ?>
 				</div>
 			</div>
 			<!-- #left-sidebar -->

@@ -2818,3 +2818,21 @@ table th[class*="col-"] {
     border-radius: 9px;
 }
 
+#profile>div {
+	margin-bottom: 10px;
+	padding: 2px;
+}
+
+#profile
+{
+	padding: 10px;
+}
+
+.half.column {
+	float: left;
+	width: 50%;
+}
+
+#profile .half.column>div{
+	margin-bottom: 10px;
+}

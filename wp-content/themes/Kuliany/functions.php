@@ -538,9 +538,9 @@ function my_simplr_add_form_fields($form)
 					</div>
 		<div class="simplr-clr"></div>
 	<div class="simplr-clr"></div><div class="simplr-field">
-	<label for="password" class="left">Choose a Password</label>
+	<label for="password" class="left">Пароль</label>
 	<input type="password" name="password" class="right" value=""><br></div>
-	<div class="simplr-field "><label for="password-confirm" class="left">Confirm Password</label>
+	<div class="simplr-field "><label for="password-confirm" class="left">Яшчэ раз пароль</label>
 	<input type="password" name="password_confirm" class="right" value="">
 	</div>';
 	return $form;

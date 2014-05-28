@@ -9,7 +9,7 @@
 
 <footer id="colophon" role="contentinfo">
 	<div id="partners">
-		<div class="title">Нашы партнеры</div>
+		<div class="title">Нашы партнёры</div>
 
 	</div>
 	<div id="partners-images">
