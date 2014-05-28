@@ -41,23 +41,24 @@ require_once "nav-menu-template.php";
 					<h2 class="widget-title" style="margin-bottom: 5px;">Пошта</h2>
 
 					<div id="registration-form">
-
-						<form action="#">
+						<form name="loginform" id="loginform" action="http://kuliany.dev/wp-login.php" method="post">
 							<div class="form-group">
 
-								<input type="text" id="username" name="username" placeholder="Лагін"/>
+								<input type="text" id="username" name="log" placeholder="Лагін"/>
 								<span>@kuliany.by</span>
 							</div>
 							<div class="clear"></div>
 							<div class="form-group" style="margin-top:10px">
 
-								<input type="password" name="password" id="password" placeholder="Пароль"/>
-								<input style="width: 40%; margin-left: 5%" type="submit" value="Цісні"/>
+								<input type="password" name="pwd" id="password" placeholder="Пароль"/>
+								<input style="width: 40%; margin-left: 5%" type="submit"  name="wp-submit" id="wp-submit" value="Цісні"/>
 							</div>
 							<div class="clear"></div>
 							<div class="form-group">
-								<a class="form-action" href="#">Зарэгістравацца</a>
+								<a class="form-action" href="/wp-login.php?action=register">Зарэгістравацца</a>
 							</div>
+							<input type="hidden" name="redirect_to" value="http://kuliany.dev/">
+							<input type="hidden" name="rememberme"  id="rememberme" value="forever">
 						</form>
 					</div>
 				</div>
