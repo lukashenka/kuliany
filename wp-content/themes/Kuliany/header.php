@@ -55,7 +55,7 @@ require_once "nav-menu-template.php";
 							</div>
 							<div class="clear"></div>
 							<div class="form-group">
-								<a class="form-action" href="/wp-login.php?action=register">Зарэгістравацца</a>
+								<a class="form-action" href="<?php echo get_page_link(287) ?>">Зарэгістравацца</a>
 							</div>
 							<input type="hidden" name="redirect_to" value="http://kuliany.dev/">
 							<input type="hidden" name="rememberme"  id="rememberme" value="forever">

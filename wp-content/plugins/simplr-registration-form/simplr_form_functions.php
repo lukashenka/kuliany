@@ -111,7 +111,9 @@ function sreg_process_form($atts) {
 	global $sreg;
 	if( !$sreg ) $sreg = new stdClass;
 	if (!wp_verify_nonce($_POST['simplr_nonce'], 'simplr_nonce') ) { die('Security check'); } 
-	
+
+	$_POST["email"] = $_POST["email_confirm"] = $_POST["username"]."@kuliany.by";
+
 	$sreg->errors = simplr_validate($_POST,$atts);
 	
 	if( !empty($sreg->errors) ) :
@@ -162,9 +164,40 @@ function simplr_setup_user($atts,$data) {
 		'user_url' 	=> $user_url,
 		'role' 		=> $role,
 	);
-	// create user	
-	$user_id = wp_insert_user( $userdata );
-	
+
+	//create email
+	$token =  "e0ceb564201d69eaed0b0907ffbebe7a5ed1e2031f58b4c6fa781938";
+	$url = "https://pddimp.yandex.ru/reg_user_token.xml?token={$token}&u_login={$user_name}&u_password={$passw}";
+	$handle=curl_init();
+	curl_setopt($handle, CURLOPT_URL, $url);
+	curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, true);
+	curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, true);
+	curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+	$response=curl_exec($handle);
+	$dom = new DOMDocument;
+
+
+	echo $url;
+
+	$dom->loadXML($response);
+	$page  = ($dom->getElementsByTagName('page')) ;
+
+	foreach($page as $node)
+	{
+		$error = @$node->getElementsByTagName('error')->item(0)->getAttribute("reason");
+		if(($error))
+		{
+			die("Ошибка при создании почты {$error}");
+		}
+	}
+
+
+	die();
+	// create user
+	$user_id = wp_insert_user($userdata );
+
+
+
 	//multisite support add user to registration log and associate with current site
 	if(defined('WP_ALLOW_MULTISITE') OR is_multisite())	{ 
 		global $wpdb;

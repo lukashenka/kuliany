@@ -337,7 +337,7 @@ if (!function_exists('techism_content_nav')) :
 				<h3 class="assistive-text"><?php _e('Post navigation', 'techism'); ?></h3>
 
 				<div
-					class="nav-previous"><?php next_posts_link(__('<span class="meta-nav">&larr;</span> �������� �����', 'techism')); ?></div>
+					class="nav-previous"><?php next_posts_link(__('<span class="meta-nav">&larr;</span> пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ', 'techism')); ?></div>
 				<div
 					class="nav-next"><?php previous_posts_link(__('Newer posts <span class="meta-nav">&rarr;</span>', 'techism')); ?></div>
 			</nav><!-- #<?php echo $html_id; ?> .navigation -->
@@ -517,8 +517,38 @@ function techism_slider_script()
 
 add_action('wp_head', 'techism_slider_script');
 
-/*
- * Load the live customizer page and welcome page if in admin mode
+function my_simplr_add_form_fields($form)
+{
+	$form = '<form method="post" action="" id="simplr-reg">
+		<div class="option-field ">
+			<label for="username">Лагін<span class="required">*</span></label>
+			<input type="text" name="username" id="username" value="" class=" ">
+					</div>
+		<div class="simplr-clr"></div>
+
+		<div class="option-field ">
+			<label for="first_name">Імя<span class="required">*</span></label>
+			<input type="text" name="first_name" id="first_name" value="" class=" ">
+					</div>
+		<div class="simplr-clr"></div>
+
+		<div class="option-field ">
+			<label for="last_name">Фамілія<span class="required">*</span></label>
+			<input type="text" name="last_name" id="last_name" value="" class=" ">
+					</div>
+		<div class="simplr-clr"></div>
+	<div class="simplr-clr"></div><div class="simplr-field">
+	<label for="password" class="left">Choose a Password</label>
+	<input type="password" name="password" class="right" value=""><br></div>
+	<div class="simplr-field "><label for="password-confirm" class="left">Confirm Password</label>
+	<input type="password" name="password_confirm" class="right" value="">
+	</div>';
+	return $form;
+}
+
+add_filter("simplr_add_form_fields", "my_simplr_add_form_fields");
+
+/* Load the live customizer page and welcome page if in admin mode
  */
 if (is_admin())
 	require_once(get_template_directory() . '/inc/techism-customizer.php');
