@@ -456,7 +456,7 @@ function simplr_build_form($data, $atts)
 		}
 
 		//submission button. Use filter to custommize
-		$form .= apply_filters('simplr-reg-submit', '<input type="submit" name="submit-reg" value="Register" class="submit button">');
+		$form .= apply_filters('simplr-reg-submit', '<input type="submit" name="submit-reg" value="Адправіць заяўку на рэгістрацыю" class="submit button">');
 
 		//wordress nonce for security
 		$nonce = wp_create_nonce('simplr_nonce');

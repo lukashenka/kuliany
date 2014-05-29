@@ -43,7 +43,7 @@ get_currentuserinfo();
 
 					<?php if (!is_user_logged_in()): ?>
 						<div id="registration-form">
-							<form name="loginform" id="loginform" action="http://kuliany.dev/wp-login.php"
+							<form name="loginform" id="loginform" action="/wp-login.php"
 							      method="post">
 								<div class="form-group">
 
@@ -61,8 +61,9 @@ get_currentuserinfo();
 								<div class="form-group">
 									<a class="form-action" href="<?php echo get_page_link(301) ?>">Зарэгістравацца</a>
 								</div>
-								<input type="hidden" name="redirect_to" value="http://kuliany.dev/">
+
 								<input type="hidden" name="rememberme" id="rememberme" value="forever">
+								<input type="hidden" name="redirect_to" value="<?php echo site_url($_SERVER['REQUEST_URI']) ?>">
 							</form>
 						</div>
 					<?php else: ?>
@@ -82,11 +83,11 @@ get_currentuserinfo();
 							</div>
 							<div class="right half column">
 								<div>
-									<a class="form-action" href="/wp-admin/">Панель</a>
+									<a class="form-action" target="_blank" href="/wp-admin/">Блог</a>
 								</div>
 
 								<div>
-									<a class="form-action" href="https://mail.yandex.ru/for/kuliany.by">Пошта</a>
+									<a class="form-action" target="_blank" href="https://mail.yandex.ru/for/kuliany.by">Пошта</a>
 								</div>
 
 								<div>

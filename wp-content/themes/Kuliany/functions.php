@@ -521,19 +521,19 @@ function my_simplr_add_form_fields($form)
 {
 	$form = '<form method="post" action="" id="simplr-reg">
 		<div class="option-field ">
-			<label for="username">Лагін<span class="required">*</span></label>
+			<label for="username">Лагін</label>
 			<input type="text" name="username" id="username" value="" class=" ">
 					</div>
 		<div class="simplr-clr"></div>
 
 		<div class="option-field ">
-			<label for="first_name">Імя<span class="required">*</span></label>
+			<label for="first_name">Імя</label>
 			<input type="text" name="first_name" id="first_name" value="" class=" ">
 					</div>
 		<div class="simplr-clr"></div>
 
 		<div class="option-field ">
-			<label for="last_name">Фамілія<span class="required">*</span></label>
+			<label for="last_name">Прозвішча</label>
 			<input type="text" name="last_name" id="last_name" value="" class=" ">
 					</div>
 		<div class="simplr-clr"></div>
@@ -541,8 +541,8 @@ function my_simplr_add_form_fields($form)
 	<label for="password" class="left">Пароль</label>
 	<input type="password" name="password" class="right" value=""><br></div>
 	<div class="simplr-field "><label for="password-confirm" class="left">Яшчэ раз пароль</label>
-	<input type="password" name="password_confirm" class="right" value="">
-	</div>';
+	<input type="password" name="password_confirm" class="right" value=""><div class="simplr-clr"></div>
+	';
 	return $form;
 }
 
@@ -552,5 +552,16 @@ add_filter("simplr_add_form_fields", "my_simplr_add_form_fields");
  */
 if (is_admin())
 	require_once(get_template_directory() . '/inc/techism-customizer.php');
+
+
+if ( (isset($_GET['action']) && $_GET['action'] != 'logout') || (isset($_POST['login_location']) && !empty($_POST['login_location'])) ) {
+        add_filter('login_redirect', 'my_login_redirect', 10, 3);
+        function my_login_redirect() {
+                $location = $_SERVER['HTTP_REFERER'];
+                wp_safe_redirect($location);
+                exit();
+        }
+}
+
 
 ?>
