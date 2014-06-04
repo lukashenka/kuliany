@@ -346,64 +346,65 @@ if (!function_exists('techism_content_nav')) :
 endif;
 
 if (!function_exists('techism_comment')) :
-	/**
-	 * Template for comments and pingbacks.
-	 */
-	function techism_comment($comment, $args, $depth)
-	{
-		$GLOBALS['comment'] = $comment;
-		switch ($comment->comment_type) :
-			case 'pingback' :
-			case 'trackback' :
-				// Display trackbacks differently than normal comments.
-				?>
-				<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
-				<p><?php _e('Pingback:', 'techism'); ?> <?php comment_author_link(); ?> <?php edit_comment_link(__('(Edit)', 'techism'), '<span class="edit-link">', '</span>'); ?></p>
-				<?php
-				break;
-			default :
-				// Proceed with normal comments.
-				global $post;
-				?>
-					<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
-					<article id="comment-<?php comment_ID(); ?>" class="comment">
-						<header class="comment-meta comment-author vcard">
-							<?php
-							echo get_avatar($comment, 44);
-							printf('<cite><b class="fn">%1$s</b> %2$s</cite>',
-								get_comment_author_link(),
-								// If current post author is also comment author, make it known visually.
-								($comment->user_id === $post->post_author) ? '<span>' . __('Post author', 'techism') . '</span>' : ''
-							);
-							printf('<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
-								esc_url(get_comment_link($comment->comment_ID)),
-								get_comment_time('c'),
-								/* translators: 1: date, 2: time */
-								sprintf(__('%1$s at %2$s', 'techism'), get_comment_date(), get_comment_time())
-							);
-							?>
-						</header>
-						<!-- .comment-meta -->
+/**
+ * Template for comments and pingbacks.
+ */
+function techism_comment($comment, $args, $depth)
+{
+$GLOBALS['comment'] = $comment;
+switch ($comment->comment_type) :
+case 'pingback' :
+case 'trackback' :
+// Display trackbacks differently than normal comments.
+?>
+<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
+	<p><?php _e('Pingback:', 'techism'); ?> <?php comment_author_link(); ?> <?php edit_comment_link(__('(Edit)', 'techism'), '<span class="edit-link">', '</span>'); ?></p>
+	<?php
+	break;
+	default :
+	// Proceed with normal comments.
+	global $post;
+	?>
+<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
+<article id="comment-<?php comment_ID(); ?>" class="comment">
+	<header class="comment-meta comment-author vcard">
+		<?php
+		echo get_avatar($comment, 44);
+		printf('<cite><b class="fn">%1$s</b> %2$s</cite>',
+			get_comment_author_link(),
+			// If current post author is also comment author, make it known visually.
+			($comment->user_id === $post->post_author) ? '<span>' . __('Post author', 'techism') . '</span>' : ''
+		);
+		printf('<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
+			esc_url(get_comment_link($comment->comment_ID)),
+			get_comment_time('c'),
+			/* translators: 1: date, 2: time */
+			sprintf(__('%1$s at %2$s', 'techism'), get_comment_date(), get_comment_time())
+		);
+		?>
+	</header>
+	<!-- .comment-meta -->
 
-						<?php if ('0' == $comment->comment_approved) : ?>
-							<p class="comment-awaiting-moderation"><?php _e('Your comment is awaiting moderation.', 'techism'); ?></p>
-						<?php endif; ?>
+	<?php if ('0' == $comment->comment_approved) : ?>
+		<p class="comment-awaiting-moderation"><?php _e('Your comment is awaiting moderation.', 'techism'); ?></p>
+	<?php endif; ?>
 
-						<section class="comment-content comment">
-							<?php comment_text(); ?>
-							<?php edit_comment_link(__('Edit', 'techism'), '<p class="edit-link">', '</p>'); ?>
-						</section>
-						<!-- .comment-content -->
+	<section class="comment-content comment">
+		<?php comment_text(); ?>
+		<?php edit_comment_link(__('Edit', 'techism'), '<p class="edit-link">', '</p>'); ?>
+	</section>
+	<!-- .comment-content -->
 
-						<div class="reply">
-							<?php comment_reply_link(array_merge($args, array('reply_text' => __('Reply', 'techism'), 'after' => ' <span>&darr;</span>', 'depth' => $depth, 'max_depth' => $args['max_depth']))); ?>
-						</div>
-						<!-- .reply -->
-					</article><!-- #comment-## -->
-				<?php
-				break;
-		endswitch; // end comment_type check
-	}
+	<div class="reply">
+		<?php comment_reply_link(array_merge($args, array('reply_text' => __('Reply', 'techism'), 'after' => ' <span>&darr;</span>', 'depth' => $depth, 'max_depth' => $args['max_depth']))); ?>
+	</div>
+	<!-- .reply -->
+</article>
+<!-- #comment-## -->
+<?php
+break;
+endswitch; // end comment_type check
+}
 endif;
 
 if (!function_exists('techism_entry_meta')) :
@@ -519,7 +520,7 @@ add_action('wp_head', 'techism_slider_script');
 
 function my_simplr_add_form_fields($form)
 {
-	$form = '<form method="post" action="" id="simplr-reg">
+	$form = '<form method="post" action="" enctype="multipart/form-data" id="simplr-reg">
 		<div class="option-field ">
 			<label for="username">Лагін</label>
 			<input type="text" name="username" id="username" value="" class=" ">
@@ -542,6 +543,12 @@ function my_simplr_add_form_fields($form)
 	<input type="password" name="password" class="right" value=""><br></div>
 	<div class="simplr-field "><label for="password-confirm" class="left">Яшчэ раз пароль</label>
 	<input type="password" name="password_confirm" class="right" value=""><div class="simplr-clr"></div>
+	</div>
+	<div class="simplr-field">
+		<label for="image" class="left">Фота</label>
+		<input type="file" name="image" class="right"/><br/>
+	</div>
+	<div class="simplr-clr">
 	';
 	return $form;
 }
@@ -554,13 +561,14 @@ if (is_admin())
 	require_once(get_template_directory() . '/inc/techism-customizer.php');
 
 
-if ( (isset($_GET['action']) && $_GET['action'] != 'logout') || (isset($_POST['login_location']) && !empty($_POST['login_location'])) ) {
-        add_filter('login_redirect', 'my_login_redirect', 10, 3);
-        function my_login_redirect() {
-                $location = $_SERVER['HTTP_REFERER'];
-                wp_safe_redirect($location);
-                exit();
-        }
+if ((isset($_GET['action']) && $_GET['action'] != 'logout') || (isset($_POST['login_location']) && !empty($_POST['login_location']))) {
+	add_filter('login_redirect', 'my_login_redirect', 10, 3);
+	function my_login_redirect()
+	{
+		$location = $_SERVER['HTTP_REFERER'];
+		wp_safe_redirect($location);
+		exit();
+	}
 }
 
 

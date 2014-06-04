@@ -497,7 +497,7 @@ class UserList
 		}
 
 		$users = get_transient($cache_id);
-
+		$users = false;
 		if (false === $users) {
 
 			// get all users
@@ -588,7 +588,7 @@ class UserList
 
 			// if -1 is in the array display all users (no filtering)
 			if (in_array('-1', $this->blogs)) {
-				$blogs_condition = "meta_key LIKE '" . $wpdb->base_prefix . "%capabilities'";
+				$blogs_condition = "meta_key LIKE '" . $wpdb->base_prefix . "%capabilities%'";
 			} // else filter by set blog ids
 			else {
 				$blogs = array_map(create_function('$v', 'global $wpdb; return "\'" . $wpdb->get_blog_prefix($v) . "capabilities\'";'), $this->blogs);
@@ -614,7 +614,21 @@ class UserList
 
 		$users = $wpdb->get_results($query);
 
+
+		foreach($users as &$user)
+		{
+
+			$meta = @get_user_meta($user->user_id,"authentication");
+
+			if(!$meta[0] == "1")
+			{
+				$user=null;
+			}
+		}
+
 		return $users;
+
+
 	}
 
 	/**

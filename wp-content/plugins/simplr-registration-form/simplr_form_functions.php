@@ -100,6 +100,28 @@ function simplr_validate($data, $atts)
 		$errors[] = 'Пароль павінен складацца больш за 8 знакаў';
 	}
 
+	if (isset($_FILES["image"])) {
+		$image = $_FILES["image"];
+		if (strpos($image["type"], "image") !== false) {
+			$path = $image["tmp_name"];
+			$upload_dir = wp_upload_dir();
+			$ext = pathinfo($image["name"], PATHINFO_EXTENSION);
+			$ext = "jpg";
+			$copypath = $upload_dir["basedir"] . "/avatars/{$data["username"]}.{$ext}";
+
+			if (!copy($path, $copypath)) {
+				$errors[] = "Ошибка загрузки изображения";
+			}
+
+
+		} else {
+			$errors[] = "Это не изображение";
+		}
+
+
+	} else {
+		$errors[] = "Патрэбна Ваша фота";
+	}
 	//use this filter to apply custom validation rules.
 	$errors = apply_filters('simplr_validate_form', $errors);
 	return $errors;
@@ -172,7 +194,7 @@ function simplr_setup_user($atts, $data)
 		'role' => $role,
 	);
 
-	//create email
+	/*//create email
 	$token = "e0ceb564201d69eaed0b0907ffbebe7a5ed1e2031f58b4c6fa781938";
 	$url = "https://pddimp.yandex.ru/reg_user_token.xml?token={$token}&u_login={$user_name}&u_password={$passw}";
 	$handle = curl_init();
@@ -198,11 +220,43 @@ function simplr_setup_user($atts, $data)
 			}
 		}
 
-	}
+	}*/
+
 
 	// create user
 	$user_id = wp_insert_user($userdata);
 
+
+	//insert avatar
+// Get the path to the upload directory.
+	$wp_upload_dir = wp_upload_dir();
+
+	$filename = "{$wp_upload_dir["basedir"]}/avatars/{$user_name}.jpg";
+
+
+// Check the type of tile. We'll use this as the 'post_mime_type'.
+	$filetype = wp_check_filetype(basename($filename), null);
+
+// Prepare an array of post data for the attachment.
+	$attachment = array(
+		'guid' => $wp_upload_dir['url'] . '/' . basename($filename),
+		'post_mime_type' => $filetype['type'],
+		'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
+		'post_content' => '',
+		'post_status' => 'inherit'
+	);
+
+// Insert the attachment.
+	$attach_id = wp_insert_attachment($attachment, $filename);
+
+// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+	require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+// Generate the metadata for the attachment, and update the database record.
+	$attach_data = wp_generate_attachment_metadata($attach_id, $filename);
+	wp_update_attachment_metadata($attach_id, $attach_data);
+
+	update_user_meta($user_id, "wp_user_avatar", $attach_id);
 
 	//multisite support add user to registration log and associate with current site
 	if (defined('WP_ALLOW_MULTISITE') OR is_multisite()) {
@@ -359,7 +413,7 @@ function simplr_build_form($data, $atts)
 		}
 
 		$fields = explode(',', @$atts['fields']);
-		$form .= '<form method="post" action="" id="simplr-reg">';
+		$form .= '<form method="post" action="" enctype="multipart/form-data" id="simplr-reg">';
 		$form .= apply_filters('simplr-reg-first-form-elem', '');
 
 		//if the user has not added their own user name field lets force one
@@ -441,6 +495,7 @@ function simplr_build_form($data, $atts)
 			$form .= '<input type="password" name="password_confirm" class="right" value="' . esc_attr(@$data['password_confirm']) . '"/><br/>';
 			$form .= '</div>';
 		}
+
 
 		//filter for adding profile fields
 		$form = apply_filters('simplr_add_form_fields', $form);

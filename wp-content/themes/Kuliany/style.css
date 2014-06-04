@@ -2846,3 +2846,18 @@ form#simplr-reg label {
 	color : black !important;
 
 }
+form#simplr-reg {
+	padding: 8px;
+	border-top: 5px solid rgb(238, 75, 75);
+	box-shadow: -2px -2px 3px rgb(179, 179, 179);
+	background: rgba(255, 255, 255, 0.65);
+	margin-top: 44PX;
+}
+
+form#simplr-reg input.submit.button {
+
+	height: 60px;
+	padding: 18px;
+	width: 100%;
+	margin-top: 13px;
+}

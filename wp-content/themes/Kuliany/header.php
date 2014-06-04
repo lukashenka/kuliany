@@ -78,7 +78,13 @@ get_currentuserinfo();
 							<div class="left half column">
 
 								<div id="ava">
-									<?php echo get_avatar(get_the_author_meta('ID'), array(100, 100), $default, get_the_author_meta('username')); ?>
+									<?php
+
+
+									$post_id = get_user_meta($current_user->ID,"wp_user_avatar");
+									$image = (wp_get_attachment_image(($post_id[0])));
+									echo $image;
+									?>
 								</div>
 							</div>
 							<div class="right half column">
