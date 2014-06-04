@@ -8,11 +8,11 @@
 
 	<article id="post-0" class="post no-results not-found">
 		<header class="entry-header">
-			<h1 class="entry-title">Пуста</h1>
+			<h1 class="entry-title">Матэрыялы гэтай рубрыкі яшчэ рыхтуюцца для апублікавання</h1>
 		</header>
 
 		<div class="entry-content">
-			<p>Прабачце, тут нічога няма, але паспрабуйце пашукаць тое што вам трэба</p>
-			<?php get_search_form(); ?>
+<!--			<p>Матэрыялы гэтай рубрыкі яшчэ рыхтуюцца для апублікавання</p>-->
+<!--			--><?php //get_search_form(); ?>
 		</div><!-- .entry-content -->
 	</article><!-- #post-0 -->

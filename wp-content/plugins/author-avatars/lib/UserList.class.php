@@ -115,7 +115,7 @@ class UserList
 	 * Wrapper template
 	 * - {users} is replaced by the list of users
 	 */
-	var $userlist_template = '<div class="author-list">{users}</div>';
+	var $userlist_template = '<div class="author-list">{users}<a style="margin-top:10px; /* padding-left: 47px; */width: 100%;text-align: center; display: inline-block; font-size: 80%; padding:5px;color:black;" href="/рэгістрацыя/">Зарэгістравацца</a></div>';
 
 	/**
 	 * User template
