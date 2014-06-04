@@ -194,7 +194,7 @@ function simplr_setup_user($atts, $data)
 		'role' => $role,
 	);
 
-	/*//create email
+	//create email
 	$token = "e0ceb564201d69eaed0b0907ffbebe7a5ed1e2031f58b4c6fa781938";
 	$url = "https://pddimp.yandex.ru/reg_user_token.xml?token={$token}&u_login={$user_name}&u_password={$passw}";
 	$handle = curl_init();
@@ -220,7 +220,7 @@ function simplr_setup_user($atts, $data)
 			}
 		}
 
-	}*/
+	}
 
 
 	// create user
